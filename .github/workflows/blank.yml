@@ -2,20 +2,17 @@ name: Close Stale Issues
 
 on:
   schedule:
-    - cron: '0 12 * * *' # 每天晚上8:00 (台灣時間)
-  workflow_dispatch: # 支援手動觸發
+    - cron: '0 12 * * *' # 每天台灣時間晚上8點
+  workflow_dispatch:
 
 jobs:
   stale:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/stale@v9.1.0
+      - uses: actions/stale@v9
         with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }} # 必須設定
-          stale-issue-message: '這個 Issue 過期了，將在 7 天後關閉！'
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          stale-issue-message: '這個 issue 已經有一段時間沒有活動了，將會被自動關閉。'
           days-before-stale: 30
           days-before-close: 7
-          stale-issue-label: 'stale' # 改成正確名稱
-          exempt-issue-labels: 'pinned,security' # 改成正確名稱
-          delete-branch: true
+          only-issues: true
